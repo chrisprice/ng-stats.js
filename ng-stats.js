@@ -151,7 +151,9 @@ var NgStats = function () {
 
 			};
 
-		}
+		},
+
+		countWatchers: countWatchers
 
 	}
 
