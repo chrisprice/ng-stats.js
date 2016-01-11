@@ -114,6 +114,10 @@ var NgStats = function () {
 
 	};
 
+	var now = function () {
+		return performance.now ? performance.now() : Date.now();
+	};
+
 	return {
 
 		REVISION: 1,
@@ -129,9 +133,9 @@ var NgStats = function () {
 
 			scope.$digest = function() {
 
-				startTime = Date.now();
+				startTime = now();
 				result = $digest.apply( this, arguments );
-				time = Date.now();
+				time = now();
 
 				ms = time - startTime;
 				msMin = Math.min( msMin, ms );
