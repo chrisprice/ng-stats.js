@@ -126,7 +126,7 @@ var NgStats = function () {
 
 		setMode: setMode,
 
-		attach: function (scopeElement, digestMsMax, watchersMax, digestTimesCollector) {
+		attach: function (scopeElement, digestMsMax, watchersMax, digestTimesListener) {
 
 			var scope = angular.element( scopeElement || document ).scope(),
 				$digest = scope.$digest;
@@ -151,8 +151,8 @@ var NgStats = function () {
 				fpsText.textContent = fps + ' W (' + fpsMin + '-' + fpsMax + ')';
 				updateGraph( fpsGraph, bound( 1, 30 - ( fps / ( watchersMax || 2500 ) ) * 30, 30 ) );
 
-				if (digestTimesCollector) {
-					digestTimesCollector.push(ms);
+				if (digestTimesListener) {
+					digestTimesListener(ms);
 				}
 
 				return result;
