@@ -115,7 +115,7 @@ var NgStats = function () {
 	};
 
 	var now = function () {
-		return performance.now ? performance.now() : Date.now();
+		return performance.now ? performance.now().toFixed(0) : Date.now();
 	};
 
 	return {
