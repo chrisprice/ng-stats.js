@@ -114,6 +114,10 @@ var NgStats = function () {
 
 	};
 
+	var now = function () {
+		return performance.now ? Math.round(performance.now()) : Date.now();
+	};
+
 	return {
 
 		REVISION: 1,
@@ -122,16 +126,16 @@ var NgStats = function () {
 
 		setMode: setMode,
 
-		attach: function (scopeElement, digestMsMax, watchersMax) {
+		attach: function (scopeElement, digestMsMax, watchersMax, digestTimesListener) {
 
 			var scope = angular.element( scopeElement || document ).scope(),
 				$digest = scope.$digest;
 
 			scope.$digest = function() {
 
-				startTime = Date.now();
+				startTime = now();
 				result = $digest.apply( this, arguments );
-				time = Date.now();
+				time = now();
 
 				ms = time - startTime;
 				msMin = Math.min( msMin, ms );
@@ -146,6 +150,10 @@ var NgStats = function () {
 
 				fpsText.textContent = fps + ' W (' + fpsMin + '-' + fpsMax + ')';
 				updateGraph( fpsGraph, bound( 1, 30 - ( fps / ( watchersMax || 2500 ) ) * 30, 30 ) );
+
+				if (digestTimesListener) {
+					digestTimesListener(ms);
+				}
 
 				return result;
 
